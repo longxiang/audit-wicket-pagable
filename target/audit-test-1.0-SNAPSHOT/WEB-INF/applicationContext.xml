@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+
+
+    <bean id="h2Server" class="org.h2.tools.Server" factory-method="createWebServer" init-method="start" destroy-method="stop">
+    <constructor-arg value="-web,-webAllowOthers,true,-webPort,8088"/>
+    </bean>
+
+    <bean id="h2Server" class="org.h2.tools.Server" factory-method="createTcpServer" init-method="start" destroy-method="stop" depends-on="h2WebServer">
+    <constructor-arg value="-tcp,-tcpAllowOthers,true,-tcpPort,9092"/>
+    </bean>
+
+    <context:component-scan base-package="ru.sbrf.partneronline.application.config, ru.sbrf.partneronline.application.services"/>
+
+    <!-- Configures Spring Data JPA and sets the base package of my DAOs. -->
+    <jpa:repositories base-package="ru.sbrf.partneronline.application.repository"/>
+
+
+</beans>
