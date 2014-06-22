@@ -4,7 +4,6 @@ import com.jolbox.bonecp.BoneCPDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -38,10 +37,6 @@ public class PersistenceJPAConfig{
 
     @Bean
     public DataSource dataSource(){
-        // This class is not an actual connection pool!
-//        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-//        dataSource.setDriverClassName("org.h2.Driver");
-//        dataSource.setUrl("jdbc:h2:mem:test");
         BoneCPDataSource dataSource = new BoneCPDataSource();
         dataSource.setDriverClass("org.h2.Driver");
         dataSource.setJdbcUrl("jdbc:h2:mem:test");

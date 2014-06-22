@@ -14,18 +14,61 @@
 			</div>
 		</div>
 		<div id="bd">
-            <form wicket:id="filterForm">
+            <!--<form wicket:id="filterForm">-->
 
-                <span>Action:</span>
-                <input wicket:id="action" type="text" style="display: inline;"/>
+                <!--<span>Action:</span>-->
+                <!--<input wicket:id="action" type="text" style="display: inline;"/>-->
 
 
-                <span>User:</span>
-                <input wicket:id="userName" type="text" style="display: inline;"/>
+                <!--<span>User:</span>-->
+                <!--<input wicket:id="userName" type="text" style="display: inline;"/>-->
 
-                <input type="submit" value="Filter" style="display: inline;"/>
+                <!--<input type="submit" value="Filter" style="display: inline;"/>-->
+
+            <!--</form>-->
+
+            <form wicket:id="filterForm" id="auditfilterform">
+
+                <span wicket:id="feedback" style="color: Red;"></span>
+                <input type="submit" value="Filter" style="float: right;"/>
+                <table class="auditfilter">
+                    <th>ID</th>
+                    <th></th>
+                    <th>Date/Time</th>
+                    <th><label for="action">Action</label></th>
+                    <th><label for="username">User Name</label></th>
+                    <th><label for="ipaddress">Ip Address</label></th>
+
+                    <tr class="row">
+                        <td>
+                            <input wicket:id="auditId" type="text" id="auditid" style="width: 75px;" />
+                        </td>
+                        <td><label for="datefrom">from</label></td>
+
+                        <td>
+                            <input wicket:id="dateFrom" type="text" id="datefrom" />
+                        </td>
+                        <td>
+                            <input wicket:id="action" type="text" id="action" />
+                        </td>
+                        <td>
+                            <input wicket:id="userName" type="text" id="username" />
+                        </td>
+                        <td>
+                            <input wicket:id="ipAddress" type="text" id="ipaddress" />
+                        </td>
+                    </tr>
+
+                    <tr class="row">
+                        <td></td>
+                        <td><label for="dateto">to</label></td>
+                        <td><input wicket:id="dateTo" type="text" id="dateto"/></td>
+                    </tr>
+                </table>
+
 
             </form>
+
             <div wicket:id="grid"></div>
 
 		</div>

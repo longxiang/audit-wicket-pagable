@@ -46,7 +46,7 @@ public class AuditService {
      * @param sortAsc
      * @return
      */
-    public List<AuditView> findSubset(SimpleFilter filter, long first, long count, String sortProperty, boolean sortAsc){
+    public List<AuditView> findSubset(AuditFilter filter, long first, long count, String sortProperty, boolean sortAsc){
 
 //        System.err.printf("AuditRepository.findSome(first=%s, count=%s, sortProperty=%s, sortAsc=%s)%n",
 //                first, count, sortProperty, sortAsc);
@@ -60,7 +60,7 @@ public class AuditService {
     }
 
 
-    private List<AuditView> getAllFilteredSortedRecords(final SimpleFilter filter, String sortProp, boolean asc) {
+    private List<AuditView> getAllFilteredSortedRecords(final AuditFilter filter, String sortProp, boolean asc) {
 
         List<AuditView> audits = auditRepository.findAll();
 

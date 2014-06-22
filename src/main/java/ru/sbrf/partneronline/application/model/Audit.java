@@ -26,6 +26,10 @@ public class Audit {
 
     public Audit(){}
 
+    public long getId() {
+        return id;
+    }
+
     public User getWhoIsUser() {
         return whoIsUser;
     }

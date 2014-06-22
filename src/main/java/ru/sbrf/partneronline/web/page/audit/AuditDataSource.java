@@ -4,6 +4,7 @@ package ru.sbrf.partneronline.web.page.audit;
 import com.inmethod.grid.IDataSource;
 import com.inmethod.grid.IGridSortState;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
 import ru.sbrf.partneronline.application.dto.AuditView;
 import ru.sbrf.partneronline.application.services.AppDataService;
 
@@ -20,17 +21,12 @@ public class AuditDataSource implements IDataSource<AuditView> {
 
      private static AppDataService dataService;
 
-     private SimpleFilter filter;
+     private AuditFilter filter;
 
-     public AuditDataSource(AppDataService dataService){
+     public AuditDataSource(AppDataService dataService, AuditFilter filter){
          if(AuditDataSource.dataService == null){
              AuditDataSource.dataService = dataService;
          }
-         filter = new SimpleFilter();
-     }
-
-     public void setFilter(SimpleFilter filter){
-         System.err.printf("AuditDataSource: %s%n", filter);
          this.filter = filter;
      }
 
@@ -61,30 +57,45 @@ public class AuditDataSource implements IDataSource<AuditView> {
             sortAsc = state.getDirection() == IGridSortState.Direction.ASC;
         }
 
-        List<AuditView> resultList = getAllFilteredSortedRecords(sortProperty, sortAsc);
+        List<AuditView> resultList = dataService.fetchPagebaleAudits((int)query.getFrom(), (int)query.getCount(), sortProperty, sortAsc);
 
-        // determine the total count
-        result.setTotalCount(resultList.size());
 
-        // get the actual items
-//        List<Audit> resultList = auditService.findSubset(filter, query.getFrom(), query.getCount(), sortProperty, sortAsc);
+        if (resultList!=null) {
+            // determine the total count
+            result.setTotalCount(dataService.countAllAudits());
+            result.setItems(resultList.iterator());
+        }
 
-        result.setItems(
-                getSubset(resultList, query.getFrom(), query.getCount()).iterator()
-        );
     }
+
+
 
     /**
      * Allows wrapping the object in a model which will be set as model of the appropriate row. In
      * most cases the model should be detachable.
      *
-     * @param object
+     * @param audit
      * @return model that can be used to access the object
      */
     @Override
-    public IModel<AuditView> model(AuditView object) {
-        return new DetachableAuditModel(object);
+    public IModel<AuditView> model(final AuditView audit) {
+//        return new DetachableAuditModel(object);
+        return new LoadableDetachableModel<AuditView>(){
+
+            /**
+             * Loads and returns the (temporary) model object.
+             *
+             * @return the (temporary) model object
+             */
+            @Override
+            protected AuditView load() {
+//                System.err.printf("load => %s%n", audit);
+                return audit;
+            }
+        };
     }
+
+
 
     /**
      * Detaches model after use. This is generally used to null out transient references that can be
@@ -110,8 +121,6 @@ public class AuditDataSource implements IDataSource<AuditView> {
 
 
     private List<AuditView> getAllFilteredSortedRecords(String sortProp, boolean asc) {
-
-
 
         List<AuditView> audits = AuditRepository.getInstance().findAll();
 

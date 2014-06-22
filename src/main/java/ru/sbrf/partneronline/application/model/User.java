@@ -13,7 +13,7 @@ import java.util.Set;
 public class User {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     private String userName;
@@ -25,6 +25,10 @@ public class User {
 
     public User(String userName) {
         this.userName = userName;
+    }
+
+    public String getUserName() {
+        return userName;
     }
 
     @Override

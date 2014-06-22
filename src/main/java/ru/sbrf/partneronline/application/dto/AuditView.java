@@ -1,11 +1,12 @@
 package ru.sbrf.partneronline.application.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by sbt-bauer-vv on 05.05.2014.
  */
-public class AuditView {
+public class AuditView implements Serializable{
 
     private long id;
 
